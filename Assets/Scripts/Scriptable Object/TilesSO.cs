@@ -16,6 +16,7 @@ public class TilesSO : ScriptableObject
     [ContextMenu("Load Component")]
     private void LoadComponents()
     {
+        NumberTile = new();
         TileMine = Resources.Load<Tile>("TileMine");
         TileEmpty = Resources.Load<Tile>("TileEmpty");
         TileExploded = Resources.Load<Tile>("TileExploded");

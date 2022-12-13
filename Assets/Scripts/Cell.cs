@@ -14,4 +14,5 @@ public struct Cell
     public bool Revealed;
     public bool Flagged;
     public bool Exploded;
+
 }
