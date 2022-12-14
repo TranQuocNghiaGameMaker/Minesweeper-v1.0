@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         cells = new Cell[_width,_height];
         GenerateCell(cells);
         GenerateMines(cells);
+        GenerateNumbers(cells);
         _board.Draw(cells);
     }
 
@@ -62,7 +63,48 @@ public class GameManager : MonoBehaviour
                 }
             }
             cells[x, y].CellType = Cell.Type.mine;
-            cells[x, y].Revealed = true;
         }
+    }
+
+    private void GenerateNumbers(Cell[,] cells)
+    {
+        for(int i = 0;i < Width; i++)
+        {
+            for(int j = 0;j < Height; j++)
+            {
+                var cell = cells[i,j];
+                if(cell.CellType == Cell.Type.mine)
+                {
+                    continue;
+                }
+                cell.Number = CountMine(cells,i,j);
+                if(cell.Number > 0)
+                {
+                    cell.CellType = Cell.Type.number;
+                    cells[i, j] = cell;
+                    cells[i, j].Revealed = true;
+                }
+            }
+        }
+    }
+
+    private int CountMine(Cell[,] cells,int cellx, int celly)
+    {
+        int count = 0;
+        for (int adjacentX = -1; adjacentX < 1; adjacentX++)
+        {
+            for (int adjacentY = -1; adjacentY < 1; adjacentY++)
+            {
+                if (adjacentX == 0 && adjacentY == 0) continue;
+                var x = cellx + adjacentX;
+                var y = celly + adjacentY;
+                if(x < 0 || x > Width || y < 0 || y > Height) continue;
+                if (cells[x,y].CellType == Cell.Type.mine)
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }
