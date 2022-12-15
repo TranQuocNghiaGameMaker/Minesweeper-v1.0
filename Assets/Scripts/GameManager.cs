@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private InitialBoardSystem initialBoard;
     private VisualBoardSystem visualBoard;
     private UpdateBoardSystem updateBoard;
+    private Vector3Int cellPosition;
     // Start is called before the first frame update
     void Awake()
     {
@@ -14,11 +15,10 @@ public class GameManager : MonoBehaviour
         visualBoard = GetComponentInChildren<VisualBoardSystem>();
         updateBoard = GetComponentInChildren<UpdateBoardSystem>();
         updateBoard.InitialSystem = initialBoard;
-        updateBoard.VisualSystem = visualBoard;
     }
     void Start()
     {
-        initialBoard.NewGame(visualBoard);
+        initialBoard.NewGame();
     }
 
     // Update is called once per frame
@@ -26,9 +26,13 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPosition = visualBoard.Tilemap.WorldToCell(worldPosition);
+            cellPosition = Ultilites.GetTileAtWorldPoint(Camera.main, visualBoard.Tilemap);
             updateBoard.Flag(cellPosition);
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            cellPosition = Ultilites.GetTileAtWorldPoint(Camera.main, visualBoard.Tilemap);
+            updateBoard.Reveal(cellPosition);
         }
     }
 }

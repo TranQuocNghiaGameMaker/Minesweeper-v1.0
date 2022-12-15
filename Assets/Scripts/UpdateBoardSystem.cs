@@ -5,7 +5,6 @@ using UnityEngine;
 public class UpdateBoardSystem : MonoBehaviour
 {
     public InitialBoardSystem InitialSystem { get; set; }
-    public VisualBoardSystem VisualSystem { get; set; }
     public Cell[,] State => InitialSystem.State;
     // Update is called once per frame
     public void Flag(Vector3Int cellPosition)
@@ -14,7 +13,15 @@ public class UpdateBoardSystem : MonoBehaviour
         if(cell.CellType == Cell.Type.invalid || cell.Revealed) return;
         cell.Flagged = !cell.Flagged;
         State[cellPosition.x, cellPosition.y] = cell;
-        VisualSystem.Draw(State);
+        VisualBoardSystem.ChangeBoardAction(State);
+    }
+    public void Reveal(Vector3Int cellPosition)
+    {
+        Cell cell = GetCell(cellPosition.x, cellPosition.y);
+        if (cell.CellType == Cell.Type.invalid || cell.Revealed || cell.Flagged) return;
+        cell.Revealed = true;
+        State[cellPosition.x, cellPosition.y] = cell;
+        VisualBoardSystem.ChangeBoardAction(State);
     }
     private Cell GetCell(int x, int y)
     {

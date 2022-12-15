@@ -9,6 +9,16 @@ public class VisualBoardSystem : MonoBehaviour
     [SerializeField] Tilemap _tilemap;
     [SerializeField] TilesSO _tileLibrary;
     public Tilemap Tilemap => _tilemap;
+    public static Action<Cell[,]> ChangeBoardAction;
+
+    private void Awake()
+    {
+        ChangeBoardAction += Draw;
+    }
+    private void OnDisable()
+    {
+        ChangeBoardAction -= Draw;
+    }
     public void Draw(Cell[,] state)
     {
         int width = state.GetLength(0);

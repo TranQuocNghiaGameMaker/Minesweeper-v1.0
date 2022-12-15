@@ -10,16 +10,15 @@ public class InitialBoardSystem : MonoBehaviour
     public int Width => _width;
     public int Height => _height;
     private Cell[,] _state;
-    public VisualBoardSystem Board { get; set; }
     public Cell[,] State => _state;
 
-    public void NewGame(VisualBoardSystem board)
+    public void NewGame()
     {
         _state = new Cell[_width,_height];
         GenerateCell();
         GenerateMines();
         GenerateNumbers();
-        board.Draw(State);
+        VisualBoardSystem.ChangeBoardAction(_state);
     }
 
     
@@ -30,9 +29,10 @@ public class InitialBoardSystem : MonoBehaviour
         {
             for(int j = 0;j < _height; j++)
             {
-                var cell = new Cell();
+                var cell = new Cell() { CellType = Cell.Type.none};
                 cell.Position = new(i, j);
                 State[i, j] = cell;
+
             }
         }
     }
