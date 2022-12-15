@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraOffset : MonoBehaviour
 {
-    [SerializeField] GameManager _gameManager;
+    [SerializeField] InitialBoardSystem _initialBoard;
     private Camera cam;
     private void Awake()
     {
@@ -13,8 +13,8 @@ public class CameraOffset : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int width = _gameManager.Width;
-        int height = _gameManager.Height;
+        int width = _initialBoard.Width;
+        int height = _initialBoard.Height;
         CheckOffSetCamera(width,height);
     }
     private void CheckOffSetCamera(int width, int height)

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Board : MonoBehaviour
+public class VisualBoardSystem : MonoBehaviour
 {
     [SerializeField] Tilemap _tilemap;
     [SerializeField] TilesSO _tileLibrary;
-    public Tilemap Tilemap { get => _tilemap;}
+    public Tilemap Tilemap => _tilemap;
     public void Draw(Cell[,] state)
     {
         int width = state.GetLength(0);
