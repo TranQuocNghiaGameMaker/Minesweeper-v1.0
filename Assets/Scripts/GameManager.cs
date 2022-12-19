@@ -8,6 +8,13 @@ public class GameManager : MonoBehaviour
     private VisualBoardSystem visualBoard;
     private UpdateBoardSystem updateBoard;
     private Vector3Int cellPosition;
+    private bool gameOver;
+
+    public bool GameOver
+    {
+        get => gameOver;
+        set => gameOver = value;
+    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,11 +26,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         initialBoard.NewGame();
+        gameOver = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gameOver) return;
         if (Input.GetMouseButtonDown(1))
         {
             cellPosition = Ultilites.GetTileAtWorldPoint(Camera.main, visualBoard.Tilemap);

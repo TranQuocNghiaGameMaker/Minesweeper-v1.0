@@ -18,7 +18,7 @@ public class InitialBoardSystem : MonoBehaviour
         GenerateCell();
         GenerateMines();
         GenerateNumbers();
-        VisualBoardSystem.ChangeBoardAction(_state);
+        VisualBoardSystem.OnChangeBoardAction(_state);
     }
 
     
@@ -83,14 +83,15 @@ public class InitialBoardSystem : MonoBehaviour
     private int CountMine(int cellx, int celly)
     {
         int count = 0;
-        for (int adjacentX = -1; adjacentX < 1; adjacentX++)
+
+        for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
         {
-            for (int adjacentY = -1; adjacentY < 1; adjacentY++)
+            for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
             {
                 if (adjacentX == 0 && adjacentY == 0) continue;
                 var x = cellx + adjacentX;
                 var y = celly + adjacentY;
-                if(x < 0 || x > Width || y < 0 || y > Height) continue;
+                if(x < 0 || x >= Width || y < 0 || y >= Height) continue;
                 if (State[x,y].CellType == Cell.Type.mine)
                 {
                     count++;

@@ -6,36 +6,42 @@ using UnityEngine;
 public class UpdateBoardSystem : MonoBehaviour
 {
     public InitialBoardSystem InitialSystem { get; set; }
-    public Cell[,] State => InitialSystem.State;
-    // Update is called once per frame
+    private Cell[,] _state => InitialSystem.State;
+    [SerializeField] GameEvent _explodedEvent;
     public void Flag(Vector3Int cellPosition)
     {
         Cell cell = GetCell(cellPosition.x, cellPosition.y);
         if(cell.CellType == Cell.Type.invalid || cell.Revealed) return;
         cell.Flagged = !cell.Flagged;
-        State[cellPosition.x, cellPosition.y] = cell;
-        VisualBoardSystem.ChangeBoardAction(State);
+        _state[cellPosition.x, cellPosition.y] = cell;
+        VisualBoardSystem.OnChangeBoardAction(_state);
     }
     public void Reveal(Vector3Int cellPosition)
     {
         Cell cell = GetCell(cellPosition.x, cellPosition.y);
         if (cell.CellType == Cell.Type.invalid || cell.Revealed || cell.Flagged) return;
-        if(cell.CellType == Cell.Type.none)
+        switch (cell.CellType)
         {
-            Flood(cell);
+            case Cell.Type.none:
+                Flood(cell);
+                break;
+            case Cell.Type.mine:
+                cell.Exploded = true;
+                _explodedEvent.Raise();
+                RevealCell(cellPosition, cell);
+                break;
+            default:
+                RevealCell(cellPosition, cell);
+                break;
         }
-        cell.Revealed = true;
-        State[cellPosition.x, cellPosition.y] = cell;
-        VisualBoardSystem.ChangeBoardAction(State);
+        
     }
-
     private void Flood(Cell cell)
     {
         if (cell.Revealed) return;
         if (cell.CellType == Cell.Type.mine || cell.CellType == Cell.Type.invalid) return;
-
-        cell.Revealed = true;
-        State[cell.Position.x, cell.Position.y] = cell;
+        var cellPosition = new Vector3Int(cell.Position.x, cell.Position.y);
+        RevealCell(cellPosition, cell);
         if (cell.CellType == Cell.Type.none)
         {
             Flood(GetCell(cell.Position.x, cell.Position.y + 1));
@@ -44,12 +50,32 @@ public class UpdateBoardSystem : MonoBehaviour
             Flood(GetCell(cell.Position.x + 1, cell.Position.y));
         }
     }
+    private void RevealCell(Vector3Int cellPosition, Cell cell)
+    {
+        cell.Revealed = true;
+        _state[cellPosition.x, cellPosition.y] = cell;
+        VisualBoardSystem.OnChangeBoardAction(_state);
+    }
+    public void RevealAllMines()
+    {
+        for(int i = 0;i < InitialSystem.Width; i++)
+        {
+            for(int j = 0;j < InitialSystem.Height; j++)
+            {
+                var cell = _state[i, j];
+                if(cell.CellType == Cell.Type.mine)
+                {
+                    RevealCell(new Vector3Int(i, j), cell);
+                }
+            }
+        }
+    }
 
     private Cell GetCell(int x, int y)
     {
         if (IsValid(x, y))
         {
-            return State[x, y];
+            return _state[x, y];
         }
         else
         {
@@ -60,4 +86,5 @@ public class UpdateBoardSystem : MonoBehaviour
     {
         return x >= 0 && x < InitialSystem.Width && y >= 0 && y < InitialSystem.Height;
     }
+
 }
