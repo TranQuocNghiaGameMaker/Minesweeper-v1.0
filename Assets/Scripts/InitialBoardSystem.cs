@@ -12,6 +12,11 @@ public class InitialBoardSystem : MonoBehaviour
     private Cell[,] _state;
     public Cell[,] State => _state;
 
+    private void OnValidate()
+    {
+        _mineCount = Mathf.Clamp(_mineCount, 1, _width * _height);
+    }
+
     public void NewGame()
     {
         _state = new Cell[_width,_height];

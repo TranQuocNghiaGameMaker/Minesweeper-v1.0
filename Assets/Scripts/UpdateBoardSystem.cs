@@ -7,7 +7,9 @@ public class UpdateBoardSystem : MonoBehaviour
 {
     public InitialBoardSystem InitialSystem { get; set; }
     private Cell[,] _state => InitialSystem.State;
+
     [SerializeField] GameEvent _explodedEvent;
+    [SerializeField] GameEvent _winEvent;
     public void Flag(Vector3Int cellPosition)
     {
         Cell cell = GetCell(cellPosition.x, cellPosition.y);
@@ -22,19 +24,35 @@ public class UpdateBoardSystem : MonoBehaviour
         if (cell.CellType == Cell.Type.invalid || cell.Revealed || cell.Flagged) return;
         switch (cell.CellType)
         {
-            case Cell.Type.none:
-                Flood(cell);
-                break;
             case Cell.Type.mine:
                 cell.Exploded = true;
                 _explodedEvent.Raise();
                 RevealCell(cellPosition, cell);
+                break;
+            case Cell.Type.none:
+                Flood(cell);
                 break;
             default:
                 RevealCell(cellPosition, cell);
                 break;
         }
         
+    }
+
+    public void CheckWinCondition()
+    {
+        for(int i = 0; i < InitialSystem.Width; i++)
+        {
+            for(int j = 0; j < InitialSystem.Height; j++)
+            {
+                Cell cell = _state[i, j];
+                if(cell.CellType != Cell.Type.mine && !cell.Revealed)
+                {
+                    return;
+                }
+            }
+        }
+        _winEvent.Raise();
     }
     private void Flood(Cell cell)
     {

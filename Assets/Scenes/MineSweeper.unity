@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 35822978}
   - component: {fileID: 35822979}
+  - component: {fileID: 35822980}
   m_Layer: 0
   m_Name: GameStates
   m_TagString: Untagged
@@ -171,8 +172,8 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1805980304}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 35822980}
+        m_TargetAssemblyTypeName: GameCondition, Assembly-CSharp
         m_MethodName: set_GameOver
         m_Mode: 6
         m_Arguments:
@@ -195,6 +196,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &35822980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35822977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a89834f4d91e540b7f1c64d1813f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,9 +441,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8007fc822a206408551a36445db4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 16
-  _height: 16
-  _mineCount: 51
+  _width: 3
+  _height: 4
+  _mineCount: 12
 --- !u!1 &1805980302
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,6 +537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explodedEvent: {fileID: 11400000, guid: b4bb1ac487d46644cab67fb4342bdee9, type: 2}
+  _winEvent: {fileID: 11400000, guid: ca1fba5fa1d08f446a42ed1106bc5e9d, type: 2}
 --- !u!1 &2143775389
 GameObject:
   m_ObjectHideFlags: 0
