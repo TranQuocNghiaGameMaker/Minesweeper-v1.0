@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameEvent _explodedEvent;
+    [SerializeField] GameEvent _winEvent;
+    [SerializeField] GameEvent _newGameEvent;
+
     private InitialBoardSystem initialBoard;
     private VisualBoardSystem visualBoard;
     private UpdateBoardSystem updateBoard;
@@ -16,6 +21,7 @@ public class GameManager : MonoBehaviour
         updateBoard = GetComponentInChildren<UpdateBoardSystem>();
         gameCondition = GetComponentInChildren<GameCondition>();
         updateBoard.InitialSystem = initialBoard;
+        updateBoard.GetGameEvent(_explodedEvent, _winEvent);
     }
     void Start()
     {
@@ -25,6 +31,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _newGameEvent.Raise();
+        }
         if (gameCondition.GameOver) return;
         if (Input.GetMouseButtonDown(1))
         {

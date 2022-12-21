@@ -8,8 +8,14 @@ public class UpdateBoardSystem : MonoBehaviour
     public InitialBoardSystem InitialSystem { get; set; }
     private Cell[,] _state => InitialSystem.State;
 
-    [SerializeField] GameEvent _explodedEvent;
-    [SerializeField] GameEvent _winEvent;
+    public GameEvent ExplodedEvent { get; set; }
+    public GameEvent WinEvent { get; set; }
+
+    public void GetGameEvent(GameEvent eventA, GameEvent eventB)
+    {
+        ExplodedEvent = eventA;
+        WinEvent = eventB;
+    }
     public void Flag(Vector3Int cellPosition)
     {
         Cell cell = GetCell(cellPosition.x, cellPosition.y);
@@ -26,7 +32,7 @@ public class UpdateBoardSystem : MonoBehaviour
         {
             case Cell.Type.mine:
                 cell.Exploded = true;
-                _explodedEvent.Raise();
+                ExplodedEvent.Raise();
                 RevealCell(cellPosition, cell);
                 break;
             case Cell.Type.none:
@@ -52,7 +58,7 @@ public class UpdateBoardSystem : MonoBehaviour
                 }
             }
         }
-        _winEvent.Raise();
+        WinEvent.Raise();
     }
     private void Flood(Cell cell)
     {
