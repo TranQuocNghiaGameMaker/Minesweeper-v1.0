@@ -2,14 +2,14 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class InitialBoardSystem : MonoBehaviour
+public class InitialBoardSystem : MonoBehaviour,IInitialBoard
 {
     [SerializeField] int _width = 16;
     [SerializeField] int _height = 16;
     [SerializeField] int _mineCount;
+    private Cell[,] _state;
     public int Width => _width;
     public int Height => _height;
-    private Cell[,] _state;
     public Cell[,] State => _state;
 
     private void OnValidate()
@@ -23,7 +23,6 @@ public class InitialBoardSystem : MonoBehaviour
         GenerateCell();
         GenerateMines();
         GenerateNumbers();
-        VisualBoardSystem.OnChangeBoardAction(_state);
     }
 
     

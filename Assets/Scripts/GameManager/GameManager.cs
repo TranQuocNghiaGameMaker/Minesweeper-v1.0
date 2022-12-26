@@ -5,47 +5,52 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] GameEvent _explodedEvent;
-    [SerializeField] GameEvent _winEvent;
-    [SerializeField] GameEvent _newGameEvent;
-
-    private InitialBoardSystem initialBoard;
-    private VisualBoardSystem visualBoard;
-    private UpdateBoardSystem updateBoard;
-    private GameCondition gameCondition;
+    [SerializeField] InputSystemSO _inputSystem;
+    private IInitialBoard initialBoard;
+    private IVisualBoard visualBoard;
+    private IUpdateBoard updateBoard;
+    private GameConditionBase gameCondition;
     private Vector3Int cellPosition;
     void Awake()
     {
-        initialBoard = GetComponentInChildren<InitialBoardSystem>();
-        visualBoard = GetComponentInChildren<VisualBoardSystem>();
-        updateBoard = GetComponentInChildren<UpdateBoardSystem>();
-        gameCondition = GetComponentInChildren<GameCondition>();
+        initialBoard = GetComponentInChildren<IInitialBoard>();
+        visualBoard = GetComponentInChildren<IVisualBoard>();
+        updateBoard = GetComponentInChildren<IUpdateBoard>();
+        gameCondition = GetComponentInChildren<GameConditionBase>();
         updateBoard.InitialSystem = initialBoard;
-        updateBoard.GetGameEvent(_explodedEvent, _winEvent);
+        updateBoard.GetGameEvent(gameCondition._explodedEvent,gameCondition._winEvent);
     }
     void Start()
     {
-        initialBoard.NewGame();
+        gameCondition._newGameEvent.Raise();
+        visualBoard.Draw(initialBoard.State);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (_inputSystem.RestartButton)
         {
-            _newGameEvent.Raise();
+            gameCondition._newGameEvent.Raise();
+            visualBoard.Draw(initialBoard.State);
         }
         if (gameCondition.GameOver) return;
-        if (Input.GetMouseButtonDown(1))
+        if (_inputSystem.RightClick)
         {
             cellPosition = Ultilites.GetTileAtWorldPoint(Camera.main, visualBoard.Tilemap);
             updateBoard.Flag(cellPosition);
+            visualBoard.Draw(updateBoard._state);
         }
-        if (Input.GetMouseButtonDown(0))
+        if (_inputSystem.Click)
         {
             cellPosition = Ultilites.GetTileAtWorldPoint(Camera.main, visualBoard.Tilemap);
             updateBoard.Reveal(cellPosition);
+            visualBoard.Draw(updateBoard._state);
             updateBoard.CheckWinCondition();
+        }
+        if (_inputSystem.doubleClick)
+        {
+            //reveal all unknown cell around
         }
     }
 }

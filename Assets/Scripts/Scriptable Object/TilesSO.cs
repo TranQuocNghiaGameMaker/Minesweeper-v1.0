@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "Tiles",menuName = "Scriptable Object")]
+[CreateAssetMenu(menuName = "Scriptable Object/Tiles", order = 3)]
 public class TilesSO : ScriptableObject
 {
     public Tile TileMine;

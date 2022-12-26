@@ -170,6 +170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b92fb173aa79c748a0ae5614216ffd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _explodedEvent: {fileID: 11400000, guid: b4bb1ac487d46644cab67fb4342bdee9, type: 2}
+  _winEvent: {fileID: 11400000, guid: ca1fba5fa1d08f446a42ed1106bc5e9d, type: 2}
+  _newGameEvent: {fileID: 11400000, guid: 635274ef73407ca44bd1d08df3b2a6ac, type: 2}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,18 +635,6 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 813408136}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1345827743}
         m_TargetAssemblyTypeName: InitialBoardSystem, Assembly-CSharp
         m_MethodName: NewGame
@@ -663,6 +654,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 591635836}
+        m_TargetAssemblyTypeName: GameCondition, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1082,9 +1085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcdf7f5296e841245b390abda97be12b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explodedEvent: {fileID: 11400000, guid: b4bb1ac487d46644cab67fb4342bdee9, type: 2}
-  _winEvent: {fileID: 11400000, guid: ca1fba5fa1d08f446a42ed1106bc5e9d, type: 2}
-  _newGameEvent: {fileID: 11400000, guid: 635274ef73407ca44bd1d08df3b2a6ac, type: 2}
+  _inputSystem: {fileID: 11400000, guid: e0394862f72dedd41bb4762f972b9ad4, type: 2}
 --- !u!1 &1864454338
 GameObject:
   m_ObjectHideFlags: 0

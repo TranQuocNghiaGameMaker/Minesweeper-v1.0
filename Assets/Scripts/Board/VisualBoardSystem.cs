@@ -4,23 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class VisualBoardSystem : MonoBehaviour
+public class VisualBoardSystem : MonoBehaviour,IVisualBoard
 {
     [SerializeField] Tilemap _tilemap;
     [SerializeField] TilesSO _tileLibrary;
     public Tilemap Tilemap => _tilemap;
-
-    public static Action<Cell[,]> OnChangeBoardAction;
-
-    private void Awake()
-    {
-        OnChangeBoardAction += Draw;
-    }
-    private void OnDisable()
-    {
-        OnChangeBoardAction -= Draw;
-    }
-    private void Draw(Cell[,] state)
+    public void Draw(Cell[,] state)
     {
         int width = state.GetLength(0);
         int height = state.GetLength(1);

@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpdateBoardSystem : MonoBehaviour
+public class UpdateBoardSystem : MonoBehaviour,IUpdateBoard
 {
-    public InitialBoardSystem InitialSystem { get; set; }
-    private Cell[,] _state => InitialSystem.State;
+    public IInitialBoard InitialSystem { get; set; }
+    public Cell[,] _state => InitialSystem.State;
 
     public GameEvent ExplodedEvent { get; set; }
     public GameEvent WinEvent { get; set; }
@@ -22,7 +22,6 @@ public class UpdateBoardSystem : MonoBehaviour
         if(cell.CellType == Cell.Type.invalid || cell.Revealed) return;
         cell.Flagged = !cell.Flagged;
         _state[cellPosition.x, cellPosition.y] = cell;
-        VisualBoardSystem.OnChangeBoardAction(_state);
     }
     public void Reveal(Vector3Int cellPosition)
     {
@@ -78,7 +77,6 @@ public class UpdateBoardSystem : MonoBehaviour
     {
         cell.Revealed = true;
         _state[cellPosition.x, cellPosition.y] = cell;
-        VisualBoardSystem.OnChangeBoardAction(_state);
     }
     public void RevealAllMines()
     {
