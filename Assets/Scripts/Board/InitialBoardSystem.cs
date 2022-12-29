@@ -33,10 +33,12 @@ public class InitialBoardSystem : MonoBehaviour,IInitialBoard
         {
             for(int j = 0;j < _height; j++)
             {
-                var cell = new Cell() { CellType = Cell.Type.none};
+                var cell = new Cell() {
+                    CellType = Cell.Type.none,
+                    Number = 0
+                };
                 cell.Position = new(i, j);
                 State[i, j] = cell;
-
             }
         }
     }

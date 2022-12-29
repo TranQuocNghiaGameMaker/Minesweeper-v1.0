@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class GameCondition : GameConditionBase
 {
-    public override bool GameOver { get; set; } = false;
+    
 }

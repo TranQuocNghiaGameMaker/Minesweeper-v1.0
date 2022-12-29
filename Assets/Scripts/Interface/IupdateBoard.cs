@@ -2,13 +2,12 @@
 
 internal interface IUpdateBoard
 {
-    GameEvent ExplodedEvent { get; set; }
-    GameEvent WinEvent { get; set; }
     IInitialBoard InitialSystem { get; set; }
-    Cell[,] _state { get; }
+    Cell[,] State { get; }
+    bool GameOver { get; set; }
 
-    void GetGameEvent(GameEvent eventA, GameEvent eventB);
     void Flag(Vector3Int cellPosition);
     void Reveal(Vector3Int cellPosition);
-    void CheckWinCondition();
+    bool CheckWinCondition();
+    void RevealNeighbor(Vector3Int cellPosition);
 }

@@ -18,12 +18,10 @@ public class GameManager : MonoBehaviour
         updateBoard = GetComponentInChildren<IUpdateBoard>();
         gameCondition = GetComponentInChildren<GameConditionBase>();
         updateBoard.InitialSystem = initialBoard;
-        updateBoard.GetGameEvent(gameCondition._explodedEvent,gameCondition._winEvent);
     }
     void Start()
     {
-        gameCondition._newGameEvent.Raise();
-        visualBoard.Draw(initialBoard.State);
+        NewGame();
     }
 
     // Update is called once per frame
@@ -31,26 +29,46 @@ public class GameManager : MonoBehaviour
     {
         if (_inputSystem.RestartButton)
         {
-            gameCondition._newGameEvent.Raise();
-            visualBoard.Draw(initialBoard.State);
+            NewGame();
         }
-        if (gameCondition.GameOver) return;
+        if (updateBoard.GameOver) return;
         if (_inputSystem.RightClick)
         {
             cellPosition = Ultilites.GetTileAtWorldPoint(Camera.main, visualBoard.Tilemap);
             updateBoard.Flag(cellPosition);
-            visualBoard.Draw(updateBoard._state);
+            visualBoard.Draw(updateBoard.State);
         }
         if (_inputSystem.Click)
         {
             cellPosition = Ultilites.GetTileAtWorldPoint(Camera.main, visualBoard.Tilemap);
             updateBoard.Reveal(cellPosition);
-            visualBoard.Draw(updateBoard._state);
-            updateBoard.CheckWinCondition();
+            CheckGameState();
+            visualBoard.Draw(updateBoard.State);
         }
         if (_inputSystem.doubleClick)
         {
-            //reveal all unknown cell around
+            cellPosition = Ultilites.GetTileAtWorldPoint(Camera.main, visualBoard.Tilemap);
+            updateBoard.RevealNeighbor(cellPosition);
+            CheckGameState();
+            visualBoard.Draw(updateBoard.State);
+        }
+
+    }
+    private void NewGame()
+    {
+        gameCondition._newGameEvent.Raise();
+        visualBoard.Draw(initialBoard.State);
+    }
+    private void CheckGameState()
+    {
+        if (updateBoard.CheckWinCondition())
+        {
+            gameCondition._winEvent.Raise();
+        }
+        if (updateBoard.GameOver)
+        {
+            gameCondition._explodedEvent.Raise();
+            Debug.Log("Game Over");
         }
     }
 }
