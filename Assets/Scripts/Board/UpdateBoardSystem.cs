@@ -8,6 +8,7 @@ public class UpdateBoardSystem : MonoBehaviour,IUpdateBoard
     public IInitialBoard InitialSystem { get; set; }
     public Cell[,] State => InitialSystem.State;
     public bool GameOver { get; set; } = false;
+    public bool GameWin { get; set; } = false;
     public void Flag(Vector3Int cellPosition)
     {
         Cell cell = GetCell(cellPosition.x, cellPosition.y);

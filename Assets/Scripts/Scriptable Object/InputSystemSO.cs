@@ -11,9 +11,9 @@ public class InputSystemSO : ScriptableObject
     public bool doubleClick => DoubleClick();
 
     float lastClickTime;
+    const float DOUBLE_CLICK_TIME = 0.2f;
     private bool DoubleClick()
     {
-        const float DOUBLE_CLICK_TIME = 0.2f;
         if (Input.GetMouseButtonDown(0))
         {
             float timeSinceLastClick = Time.time - lastClickTime;

@@ -5,6 +5,7 @@ internal interface IUpdateBoard
     IInitialBoard InitialSystem { get; set; }
     Cell[,] State { get; }
     bool GameOver { get; set; }
+    bool GameWin { get; set; }
 
     void Flag(Vector3Int cellPosition);
     void Reveal(Vector3Int cellPosition);

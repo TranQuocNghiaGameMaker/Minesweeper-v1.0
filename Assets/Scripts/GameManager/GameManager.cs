@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
             NewGame();
         }
         if (updateBoard.GameOver) return;
+        if (updateBoard.GameWin) return;
         if (_inputSystem.RightClick)
         {
             cellPosition = Ultilites.GetTileAtWorldPoint(Camera.main, visualBoard.Tilemap);
@@ -68,7 +69,6 @@ public class GameManager : MonoBehaviour
         if (updateBoard.GameOver)
         {
             gameCondition._explodedEvent.Raise();
-            Debug.Log("Game Over");
         }
     }
 }
